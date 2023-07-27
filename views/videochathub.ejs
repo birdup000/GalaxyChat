@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle, #42275a, #000);
+            background-size: 100% 100%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            height: 80px;
+            padding: 20px;
+            box-sizing: border-box;
+            background: linear-gradient(329deg, #734b6d, #42275a, #141e30);
+            background-size: 600% 600%;
+            animation: Gradient 15s ease infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .navbar:before, .navbar:after {
+            content: "";
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            background: 
+            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -50px -50px,
+            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjMiIGN5PSIzIiByPSIzIj48L2NpcmNsZT4KPC9zdmc+Cg==) -100px -100px, 
+            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSI5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjQuNSIgY3k9IjQuNSIgcj0iNC41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -150px -150px;
+            background-repeat: repeat;
+            opacity: 0.5;
+            z-index: 1;
+            animation: stars 25s linear infinite, stars2 50s linear infinite, stars3 100s linear infinite;
+        }
+
+        /* updated shooting star */
+        .shooting-star {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            background: 
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Cdefs%3E%3ClinearGradient id='my-gradient'%3E%3Cstop offset='20%25' stop-color='%23ff0000' /%3E%3Cstop offset='50%25' stop-color='%23ff8c00' /%3E%3Cstop offset='80%25' stop-color='%23ffd700' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle r='1' cx='1' cy='1' fill='url(%23my-gradient)' /%3E%3C/svg%3E") no-repeat;  
+            animation: shootingStar 5s linear infinite;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .navbar:before {
+            animation-delay: 10s, 20s, 30s;
+        }
+
+        .navbar a {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            position: relative;
+            text-shadow: 0 0 5px #734b6d, 0 0 10px #734b6d, 0 0 15px #734b6d, 0 0 20px #734b6d;
+            transition: color .5s;
+            z-index: 3;
+        }
+
+        .navbar a:before, .navbar a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to left, #ff8c00,  #ff0080, #40e0d0);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s ease-in;
+            z-index: 3;
+        }
+
+        .navbar a:after {
+            filter: blur(5px);
+        }
+
+        .navbar a:hover:before, .navbar a:hover:after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .navbar a:hover {
+            color: #fff;
+        }
+
+        @keyframes Gradient {
+            0% {background-position: 0% 50%}
+            50% {background-position: 100% 50%}
+            100% {background-position: 0% 50%}
+        }
+
+        @keyframes stars {
+            from {background-position: 0px 0px, 0px 0px, 0px 0px;}
+            to {background-position: 500px 500px, 400px 400px, 300px 300px;}
+        }
+
+        @keyframes shootingStar {
+            0% {
+                background-position: 100% 0%;
+                opacity: 1;
+            }
+            5% {
+                background-position: 70% 20%;
+                opacity: 0.8;
+            }
+            100% {
+                background-position: 0% 100%;
+                opacity: 0;
+            }
+        }
+p
+{color: white;}
+    </style>
+
+<script type="text/javascript" src="https://unpkg.com/vanilla-tilt@1.7.0"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+
+    .futuristic-btn {
+        position: relative;
+        display: inline-block;
+        padding: 20px 40px;
+        color: #000;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        text-decoration: none;
+        font-size: 24px;
+        overflow: hidden;
+        transition: 0.2s;
+        background-color: #9CECFB;
+        background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+        box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        transform-style: preserve-3d;
+    }
+
+    .futuristic-btn::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.1),
+            inset 0 0 5px rgba(255, 255, 255, 0.1);
+        transition: all 0.5s;
+        border-radius: 10px;
+        pointer-events: none;
+    }
+
+    .icon {
+        margin-right: 10px;
+    }
+</style>
+
+<style>
+    .container {
+        perspective: 1000px;
+    }
+
+    .flip-card {
+        width: 300px;
+        height: 200px;
+        border: 1px solid #f1f1f1;
+        perspective: 1000px;
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .container:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flip-card-front {
+        background-color: #3b5998;
+        color: white;
+    }
+
+    .flip-card-front button {
+        font-size: 20px;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .flip-card-back {
+        background-color: #2980b9;
+        color: white;
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-back button {
+        font-size: 20px;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="shooting-star"></div>
+        <a href="/home">Home</a>
+        <a href="/news">News</a>
+        <a href="/chat">Chat</a>
+        <a href="/videochathub">Video Chat</a>
+    </div>
+
+    <p>Join a room by entering its id</p>
+
+    <script>
+        function process()
+        {
+            const url = "http://localhost:8000/" + document.getElementById("url").value;
+            location.href = url;
+            return false;
+        }
+    </script>
+    
+    <form onSubmit="return process();">
+        <input type="text" name="url" id="url" placeholder="Room Code" required>
+      <br>
+      <br>
+        <button class="futuristic-btn" id="tilt-button" type="submit">
+            <img src="videocall.svg" class="icon" width="36" height="36">
+            Join Video Call
+        </button>
+    </form>
+    <script>
+        VanillaTilt.init(document.querySelector("#tilt-button"), {
+            max: 25,
+            speed: 400
+        });
+    </script>
+
+
+<p>See button below for creating a video chat</p>
+<div class="container">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <button>Hover Over Me</button>
+            </div>
+            <div class="flip-card-back">
+                <button id="video-call-button">Create Video Call!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('video-call-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = "http://localhost:8000/videochat";
+    });
+</script>
+
+</body>
+</html>

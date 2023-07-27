@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+	
+			body {
+				margin: 0;
+				background: radial-gradient(circle, #42275a, #000);
+				background-size: 100% 100%;
+			}
+	
+			.navbar {
+				display: flex;
+				justify-content: start;
+				align-items: center;
+				height: 80px;
+				padding: 20px;
+				box-sizing: border-box;
+				background: linear-gradient(329deg, #734b6d, #42275a, #141e30);
+				background-size: 600% 600%;
+				animation: Gradient 15s ease infinite;
+				overflow: hidden;
+				position: relative;
+			}
+	
+			.navbar:before, .navbar:after {
+				content: "";
+				position: absolute;
+				top: 0; bottom: 0; left: 0; right: 0;
+				background: 
+				url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -50px -50px,
+				url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjMiIGN5PSIzIiByPSIzIj48L2NpcmNsZT4KPC9zdmc+Cg==) -100px -100px, 
+				url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSI5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjQuNSIgY3k9IjQuNSIgcj0iNC41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -150px -150px;
+				background-repeat: repeat;
+				opacity: 0.5;
+				z-index: 1;
+				animation: stars 25s linear infinite, stars2 50s linear infinite, stars3 100s linear infinite;
+			}
+	
+			/* updated shooting star */
+			.shooting-star {
+				position: absolute;
+				top: 0; bottom: 0; left: 0; right: 0;
+				background: 
+				  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Cdefs%3E%3ClinearGradient id='my-gradient'%3E%3Cstop offset='20%25' stop-color='%23ff0000' /%3E%3Cstop offset='50%25' stop-color='%23ff8c00' /%3E%3Cstop offset='80%25' stop-color='%23ffd700' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle r='1' cx='1' cy='1' fill='url(%23my-gradient)' /%3E%3C/svg%3E") no-repeat;  
+				animation: shootingStar 5s linear infinite;
+				opacity: 0;
+				z-index: 2;
+			}
+	
+			.navbar:before {
+				animation-delay: 10s, 20s, 30s;
+			}
+	
+			.navbar a {
+				font-family: 'Orbitron', sans-serif;
+				font-size: 20px;
+				color: white;
+				text-decoration: none;
+				padding: 10px;
+				position: relative;
+				text-shadow: 0 0 5px #734b6d, 0 0 10px #734b6d, 0 0 15px #734b6d, 0 0 20px #734b6d;
+				transition: color .5s;
+				z-index: 3;
+			}
+	
+			.navbar a:before, .navbar a:after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background: linear-gradient(to left, #ff8c00,  #ff0080, #40e0d0);
+				transform: scaleX(0);
+				transform-origin: right;
+				transition: transform 0.6s ease-in;
+				z-index: 3;
+			}
+	
+			.navbar a:after {
+				filter: blur(5px);
+			}
+	
+			.navbar a:hover:before, .navbar a:hover:after {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
+	
+			.navbar a:hover {
+				color: #fff;
+			}
+	
+			@keyframes Gradient {
+				0% {background-position: 0% 50%}
+				50% {background-position: 100% 50%}
+				100% {background-position: 0% 50%}
+			}
+	
+			@keyframes stars {
+				from {background-position: 0px 0px, 0px 0px, 0px 0px;}
+				to {background-position: 500px 500px, 400px 400px, 300px 300px;}
+			}
+	
+			@keyframes shootingStar {
+				0% {
+					background-position: 100% 0%;
+					opacity: 1;
+				}
+				5% {
+					background-position: 70% 20%;
+					opacity: 0.8;
+				}
+				100% {
+					background-position: 0% 100%;
+					opacity: 0;
+				}
+			}
+	
+		</style>
+		<link rel="stylesheet" href="/css/chatjoin.css" />
+		<title>Chat</title>
+	</head>
+	<body>
+		<div class="navbar">
+			<div class="shooting-star"></div>
+			<a href="/home">Home</a>
+			<a href="/news">News</a>
+			<a href="/chat">Chat</a>
+			<a href="/videochathub">Video Chat</a>
+		</div>
+
+		<div class="join-container">
+			<header class="join-header">
+				<h1>Chat</h1>
+			</header>
+			<main class="join-main">
+				<form action="/chatlogged">
+					<div class="form-control">
+						<label for="username">Username</label>
+						<input
+							type="text"
+							name="username"
+							id="username"
+							placeholder="Enter username..."
+							required
+						/>
+					</div>
+					<div class="form-control">
+						<label for="room">Room</label>
+						<select name="room" id="room">
+							<option value="chatroom1">Chatroom1</option>
+							<option value="chatroom2">Chatroom2</option>
+							<option value="chatroom3">Chatroom3</option>
+							<option value="Chatroom4">Chatroom4</option>
+							<option value="Chatroom5">Chatroom5</option>
+							<option value="Chatroom6">Chatroom6</option>
+						</select>
+					</div>
+					<button type="submit" class="btn">Join Chat</button>
+				</form>
+			</main>
+		</div>
+	</body>
+</html>

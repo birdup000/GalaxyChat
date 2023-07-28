@@ -137,31 +137,30 @@ io.on('connection', socket => {
 
 // If they join the link, generate a random UUID and send them to a new room with said UUID
 app.get('/videochat', (req, res) => {
-  res.redirect(`/${uuidV4()}`)
-})
-
-
+  res.redirect(`/${uuidV4()}`);
+});
 
 // If they join a specific room, then render that room
 app.get('/:room', (req, res) => {
-  res.render('room', {roomId: req.params.room})
-})
-
-
+  res.render('room', {roomId: req.params.room});
+});
 
 // When someone connects to the server
 io.on('connection', socket => {
   // When someone attempts to join the room
   socket.on('join-room', (roomId, userId) => {
-      socket.join(roomId)  // Join the room
-      socket.broadcast.emit('user-connected', userId) // Tell everyone else in the room that we joined
-      
-      // Communicate the disconnection
-      socket.on('disconnect', () => {
-          socket.broadcast.emit('user-disconnected', userId)
-      })
-  })
-})
+    socket.join(roomId);  // Join the room
+
+    // Broadcast to everyone else in the room that a new user has joined
+    socket.broadcast.to(roomId).emit('user-connected', userId);
+
+    // When the socket disconnects, broadcast to the room that the user has disconnected
+    socket.on('disconnect', () => {
+      socket.broadcast.to(roomId).emit('user-disconnected', userId);
+    });
+
+  });
+});
 
 
 ///Also change here as well for showing what port server is running on

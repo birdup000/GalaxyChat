@@ -1,5 +1,5 @@
 {
-  "name": "sassrefined",
+  "name": "galaxychat",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -33,5 +33,6 @@
   "bugs": {
     "url": "https://github.com/greengeckowizard/SassRefined/issues"
   },
-  "homepage": "https://github.com/greengeckowizard/SassRefined#readme"
+  "homepage": "https://github.com/greengeckowizard/SassRefined#readme",
+  "devDependencies": {}
 }

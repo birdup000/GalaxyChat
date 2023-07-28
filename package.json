@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/greengeckowizard/SassRefined.git"
+    "url": "git+https://github.com/greengeckowizard/galaxychat.git"
   },
   "author": "",
   "license": "ISC",
@@ -31,8 +31,8 @@
     "ws": "^7.4.6"
   },
   "bugs": {
-    "url": "https://github.com/greengeckowizard/SassRefined/issues"
+    "url": "https://github.com/greengeckowizard/galaxychat/issues"
   },
-  "homepage": "https://github.com/greengeckowizard/SassRefined#readme",
+  "homepage": "https://github.com/greengeckowizard/galaxychat#readme",
   "devDependencies": {}
 }

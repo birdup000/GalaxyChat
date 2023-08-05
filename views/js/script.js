@@ -1,83 +1,74 @@
-const socket = io('/');
-const videoGrid = document.getElementById('video-grid');
+const socket = io(`/`);
+const videoGrid = document.getElementById(`video-grid`);
 const myPeer = new Peer();
-const myVideo = document.createElement('video');
+const myVideo = document.createElement(`video`);
 myVideo.muted = true;
 const peers = {};
-
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 navigator.mediaDevices.getUserMedia({
   video: false,
   audio: true
 }).then(stream => {
-  addAudioStream(myVideo, stream);
+  addStream(myVideo, stream);
 
-  myPeer.on('call', call => {
+  myPeer.on(`call`, call => {
     call.answer(stream);
-    const video = document.createElement('video');
-    call.on('stream', userAudioStream => {
-      addAudioStream(video, userAudioStream);
+    const video = document.createElement(`video`);
+    call.on(`stream`, userAudioStream => {
+      addStream(video, userAudioStream);
     });
-    call.on('close', () => {
+    call.on(`close`, () => {
       video.remove();
     });
 
     peers[call.peer] = call;
   });
 
-  socket.on('user-connected', userId => {
+  socket.on(`user-connected`, userId => {
     connectToNewUser(userId, stream);
   });
 }).catch(error => {
-  console.log('Error accessing media devices.', error);
+  console.log(`Error accessing media devices.`, error);
 });
 
-socket.on('user-disconnected', userId => {
+socket.on(`user-disconnected`, userId => {
   if (peers[userId]) peers[userId].close();
 });
 
-myPeer.on('open', id => {
-  socket.emit('join-room', ROOM_ID, id);
+myPeer.on(`open`, id => {
+  socket.emit(`join-room`, ROOM_ID, id);
 });
 
 function connectToNewUser(userId, stream) {
-    const call = myPeer.call(userId, stream);
-    const video = document.createElement('video');
-    call.on('stream', userVideoStream => {
-      addVideoStream(video, userVideoStream);
-    });
-  
-    // Handle the 'track' event
-    call.peerConnection.ontrack = event => {
-      if (event.track.kind === 'video') {
-        // Remove the old video element
-        video.remove();
-        // Create a new stream using the received track
-        const newStream = new MediaStream([event.track]);
-        // Add the new stream to a new video element
-        addVideoStream(video, newStream);
-      }
-    };
-  
-    call.on('close', () => {
-      video.remove();
-    });
-  
-    peers[userId] = call;
-  }
-
-function addAudioStream(video, stream) {
-  video.srcObject = stream;
-  video.addEventListener('loadedmetadata', () => {
-    video.play();
+  const call = myPeer.call(userId, stream);
+  const video = document.createElement(`video`);
+  call.on(`stream`, userVideoStream => {
+    addStream(video, userVideoStream);
   });
-  videoGrid.append(video);
+
+  // Handle the `track` event
+  call.peerConnection.ontrack = event => {
+    if (event.track.kind === `video`) {
+      // Remove the old video element
+      video.remove();
+      // Create a new stream using the received track
+      const newStream = new MediaStream([event.track]);
+      // Add the new stream to a new video element
+      addStream(video, newStream);
+    }
+  };
+
+  call.on(`close`, () => {
+    video.remove();
+  });
+
+  peers[userId] = call;
 }
 
-function addVideoStream(video, stream) {
+
+function addStream(video, stream) {
   video.srcObject = stream;
-  video.addEventListener('loadedmetadata', () => {
+  video.addEventListener(`loadedmetadata`, () => {
     video.play();
   });
   videoGrid.append(video);
@@ -122,10 +113,10 @@ function checkForAudio() {
   navigator.mediaDevices.getUserMedia({ audio: true })
     .then(stream => {
       if (stream.getAudioTracks().length > 0) {
-        addAudioStream(myVideo, stream);
+        addStream(myVideo, stream);
       }
     }).catch(error => {
-      console.log('No audio device detected.', error);
+      console.log(`No audio device detected.`, error);
     });
 }
 
@@ -133,10 +124,10 @@ function checkForVideo() {
   navigator.mediaDevices.getUserMedia({ video: true })
     .then(stream => {
       if (stream.getVideoTracks().length > 0) {
-        addVideoStream(myVideo, stream);
+        addStream(myVideo, stream);
       }
     }).catch(error => {
-      console.log('No video device detected.', error);
+      console.log(`No video device detected.`, error);
     });
 }
 
@@ -210,12 +201,4 @@ function toggleVideo() {
       }
     }
   });
-
-function addVideoStream(video, stream) {
-    video.srcObject = stream;
-    video.addEventListener('loadedmetadata', () => {
-        video.play();
-    });
-    videoGrid.append(video); // Append video element to videoGrid
-}
 

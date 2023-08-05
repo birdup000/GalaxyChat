@@ -1,13 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
+
 :root {
-	--dark-color-a: #3d3d3d;
-	--dark-color-b: #030c1f;
-	--light-color: #46ccaf;
-	--lighter-color: #141111;
-	--success-color: #5cb85c;
-	--error-color: #d9534f;
-}
+	--dark-color-a: #020614; /* deep space */
+	--dark-color-b: #0a0f20; /* distant stars */
+	--light-color: #50668b; /* nebula light */
+	--lighter-color: #1a2a50; /* dark nebula */
+	--success-color: #145a32; /* earth green */
+	--error-color: #8b1a1a; /* red giant */
+} 
+
 
 * {
 	border-radius: 10px;

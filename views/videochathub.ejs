@@ -233,7 +233,13 @@ p
     }
 </style>
 
-
+<style>
+    .chat-stuff {
+    display: flex;
+    justify-content: space-around;
+    padding: 150px;
+}
+</style>
 </head>
 <body>
     <div class="navbar">
@@ -244,17 +250,18 @@ p
         <a href="/videochathub">Video Chat</a>
     </div>
 
-    <p>Join a room by entering its id</p>
 
+    <div class="chat-stuff">
+        <p>Join a room by entering its id</p>
     <script>
         function process()
         {
-            const url = "http://localhost:8000/" + document.getElementById("url").value;
+            const url = "http://chat.birdup.link/" + document.getElementById("url").value;
             location.href = url;
             return false;
         }
     </script>
-    
+
     <form onSubmit="return process();">
         <input type="text" name="url" id="url" placeholder="Room Code" required>
       <br>
@@ -285,11 +292,11 @@ p
         </div>
     </div>
 </div>
-
+</div>
 <script>
     document.getElementById('video-call-button').addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.href = "http://localhost:8000/videochat";
+        window.location.href = "http://chat.birdup.link/videochat";
     });
 </script>
 

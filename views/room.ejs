@@ -15,7 +15,7 @@
     <script src="/socket.io/socket.io.js" defer></script>
     <!-- Load script.js, our client-side script -->
     <script src="/js/script.js" defer></script>
-    <title>Calling Portion</title>
+    <title>Video Chat</title>
     <style>
         body {
             font-family: 'Orbitron', sans-serif;
@@ -117,12 +117,11 @@
 
         #video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
             justify-items: center;
             align-items: center;
-            margin-top: 20px;
-            padding: 0 20px;
+            margin: 20px;
         }
 
         #video-grid video {
@@ -134,22 +133,22 @@
         #toggles {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
-            padding: 0 20px;
+            margin: 20px;
         }
 
         #toggles label {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             margin-right: 20px;
-        }
-
-        #toggles p {
-            margin-right: 10px;
-            font-size: 16px;
             color: #fff;
+            font-size: 18px;
         }
 
+        #toggles label input {
+            margin-right: 8px;
+        }
+
+        
     </style>
 
     <script>
@@ -170,7 +169,8 @@
         }
 
         function stopVideo() {
-            myVideo.srcObject.getVideoTracks().forEach(track => track.stop());
+            const videoTracks = myVideo.srcObject.getVideoTracks();
+            videoTracks.forEach((track) => track.stop());
             myVideo.srcObject = null;
         }
     </script>
@@ -190,12 +190,12 @@
 
     <div id="toggles">
         <label>
-            <p>Video on/off</p>
             <input type="checkbox" id="video-toggle" onchange="toggleVideo()">
+            Video on/off
         </label>
         <label>
-            <p>Audio on/off</p>
             <input type="checkbox" id="audio-toggle" onchange="toggleAudio()">
+            Audio on/off
         </label>
     </div>
 

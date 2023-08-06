@@ -8,35 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <!-- Set the ROOM_ID variable to the roomId that is passed in by server.js -->
     <script>
-        const ROOM_ID = "<%= roomId %>"
+        const ROOM_ID = "<%= roomId %>";
     </script>
-    <!-- CDN in the peerJS and socket.io libraries -->
+    <!-- CDN for the peerJS and socket.io libraries -->
     <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js" defer></script>
-    <!-- Load in script.js, our client-side script -->
+    <!-- Load script.js, our client-side script -->
     <script src="/js/script.js" defer></script>
     <title>Calling Portion</title>
     <style>
-        #video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 300px);
-            grid-auto-rows: 300px;
-            justify-content: center;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        /* added the font-family to the body */
         body {
             font-family: 'Orbitron', sans-serif;
-        }
-    </style>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-
-        body {
             margin: 0;
             background: radial-gradient(circle, #42275a, #000);
             background-size: 100% 100%;
@@ -56,35 +38,6 @@
             position: relative;
         }
 
-        .navbar:before, .navbar:after {
-            content: "";
-            position: absolute;
-            top: 0; bottom: 0; left: 0; right: 0;
-            background: 
-            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -50px -50px,
-            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjMiIGN5PSIzIiByPSIzIj48L2NpcmNsZT4KPC9zdmc+Cg==) -100px -100px, 
-            url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSI5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjQuNSIgY3k9IjQuNSIgcj0iNC41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -150px -150px;
-            background-repeat: repeat;
-            opacity: 0.5;
-            z-index: 1;
-            animation: stars 25s linear infinite, stars2 50s linear infinite, stars3 100s linear infinite;
-        }
-
-        /* updated shooting star */
-        .shooting-star {
-            position: absolute;
-            top: 0; bottom: 0; left: 0; right: 0;
-            background: 
-              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Cdefs%3E%3ClinearGradient id='my-gradient'%3E%3Cstop offset='20%25' stop-color='%23ff0000' /%3E%3Cstop offset='50%25' stop-color='%23ff8c00' /%3E%3Cstop offset='80%25' stop-color='%23ffd700' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle r='1' cx='1' cy='1' fill='url(%23my-gradient)' /%3E%3C/svg%3E") no-repeat;  
-            animation: shootingStar 5s linear infinite;
-            opacity: 0;
-            z-index: 2;
-        }
-
-        .navbar:before {
-            animation-delay: 10s, 20s, 30s;
-        }
-
         .navbar a {
             font-family: 'Orbitron', sans-serif;
             font-size: 20px;
@@ -97,6 +50,23 @@
             z-index: 3;
         }
 
+        .navbar:before, .navbar:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background:
+                url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMyIgaGVpZ2h0PSIzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjEuNSIgY3k9IjEuNSIgcj0iMS41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -50px -50px,
+                url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNiIgaGVpZ2h0PSI2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjMiIGN5PSIzIiByPSIzIj48L2NpcmNsZT4KPC9zdmc+Cg==) -100px -100px,
+                url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOSIgaGVpZ2h0PSI5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxjaXJjbGUgY3g9IjQuNSIgY3k9IjQuNSIgcj0iNC41Ij48L2NpcmNsZT4KPC9zdmc+Cg==) -150px -150px;
+            background-repeat: repeat;
+            opacity: 0.5;
+            z-index: 1;
+            animation: stars 25s linear infinite, stars2 50s linear infinite, stars3 100s linear infinite;
+        }
+
         .navbar a:before, .navbar a:after {
             content: '';
             position: absolute;
@@ -104,7 +74,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(to left, #ff8c00,  #ff0080, #40e0d0);
+            background: linear-gradient(to left, #ff8c00, #ff0080, #40e0d0);
             transform: scaleX(0);
             transform-origin: right;
             transition: transform 0.6s ease-in;
@@ -125,50 +95,84 @@
         }
 
         @keyframes Gradient {
-            0% {background-position: 0% 50%}
-            50% {background-position: 100% 50%}
-            100% {background-position: 0% 50%}
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes stars {
-            from {background-position: 0px 0px, 0px 0px, 0px 0px;}
-            to {background-position: 500px 500px, 400px 400px, 300px 300px;}
+            from {
+                background-position: 0px 0px, 0px 0px, 0px 0px;
+            }
+            to {
+                background-position: 500px 500px, 400px 400px, 300px 300px;
+            }
         }
 
-        @keyframes shootingStar {
-            0% {
-                background-position: 100% 0%;
-                opacity: 1;
-            }
-            5% {
-                background-position: 70% 20%;
-                opacity: 0.8;
-            }
-            100% {
-                background-position: 0% 100%;
-                opacity: 0;
-            }
+        #video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        #video-grid video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #toggles {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        #toggles label {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        #toggles p {
+            margin-right: 10px;
+            font-size: 16px;
+            color: #fff;
         }
 
     </style>
 
+    <script>
+        function toggleVideo() {
+            const videoToggle = document.getElementById('video-toggle');
+            if (videoToggle.checked) {
+                // Turn video on
+                checkForVideo();
+            } else {
+                // Turn video off
+                stopVideo();
+            }
+        }
 
-<script>
-    function toggleVideo() {
-      const videoToggle = document.getElementById('video-toggle');
-      if (videoToggle.checked) {
-          // Turn video on
-          checkForVideo();
-      } else {
-          // Turn video off
-          stopVideo();
-      }
-    }
-    
-    function stopVideo() {
-      myVideo.srcObject.getVideoTracks().forEach(track => track.stop());
-      myVideo.srcObject = null;
-    }
+        function toggleAudio() {
+            const audioToggle = document.getElementById('audio-toggle');
+            // Implement audio toggle functionality here
+        }
+
+        function stopVideo() {
+            myVideo.srcObject.getVideoTracks().forEach(track => track.stop());
+            myVideo.srcObject = null;
+        }
     </script>
 
 </head>
@@ -183,13 +187,12 @@
     </div>
 
     <div id="video-grid"></div>
-    <div>
+
+    <div id="toggles">
         <label>
             <p>Video on/off</p>
             <input type="checkbox" id="video-toggle" onchange="toggleVideo()">
         </label>
-    </div>
-    <div>
         <label>
             <p>Audio on/off</p>
             <input type="checkbox" id="audio-toggle" onchange="toggleAudio()">

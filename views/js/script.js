@@ -4,6 +4,7 @@ const myPeer = new Peer();
 const myVideo = document.createElement(`video`);
 myVideo.muted = true;
 const peers = {};
+let videoElements = [];
 
 navigator.mediaDevices.getUserMedia({
   video: false,
@@ -18,8 +19,7 @@ navigator.mediaDevices.getUserMedia({
       addStream(video, userAudioStream);
     });
     call.on(`close`, () => {
-      video.remove();
-      video = null; // Delete the video element
+      removeStream(video);
     });
     call.on(`error`, error => {
       console.error(`Error with peer connection: `, error);
@@ -39,6 +39,10 @@ socket.on(`user-disconnected`, userId => {
   if (peers[userId]) {
     peers[userId].close();
     delete peers[userId]; // Delete the peer connection from the object
+    const disconnectedUserVideo = videoElements.find(video => video.dataset.userId === userId);
+    if (disconnectedUserVideo) {
+      removeStream(disconnectedUserVideo);
+    }
   }
 });
 
@@ -57,7 +61,7 @@ function connectToNewUser(userId, stream) {
   call.peerConnection.ontrack = event => {
     if (event.track.kind === `video`) {
       // Remove the old video element
-      video.remove();
+      removeStream(video);
       // Create a new stream using the received track
       const newStream = new MediaStream([event.track]);
       // Add the new stream to a new video element
@@ -66,8 +70,7 @@ function connectToNewUser(userId, stream) {
   };
 
   call.on(`close`, () => {
-    video.remove();
-    video = null; // Delete the video element
+    removeStream(video);
   });
   call.on(`error`, error => {
     console.error(`Error with peer connection: `, error);
@@ -82,7 +85,16 @@ function addStream(video, stream) {
   video.addEventListener(`loadedmetadata`, () => {
     video.play();
   });
-  videoGrid.append(video);
+  videoGrid.appendChild(video);
+  videoElements.push(video);
+}
+
+function removeStream(video) {
+  const index = videoElements.indexOf(video);
+  if (index > -1) {
+    videoElements.splice(index, 1);
+    video.remove();
+  }
 }
 
 socket.on('stream-update', userId => {
@@ -145,71 +157,70 @@ function checkForVideo() {
 document.getElementById('video-toggle').addEventListener('change', toggleVideo);
 
 function toggleVideo() {
-    const videoToggle = document.getElementById('video-toggle');
-    if (videoToggle.checked) {
-      enableVideo();
-    } else {
-      disableVideo();
-    }
+  const videoToggle = document.getElementById('video-toggle');
+  if (videoToggle.checked) {
+    enableVideo();
+  } else {
+    disableVideo();
   }
-  
-  function enableVideo() {
-    if (myVideo.srcObject) {
-      const videoTracks = myVideo.srcObject.getVideoTracks();
-      if (videoTracks.length === 0) {
-        // If no video tracks exist, get video stream and add it
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(videoStream => {
-            const videoTrack = videoStream.getVideoTracks()[0];
-            myVideo.srcObject.addTrack(videoTrack);
-            // Replace the old stream with the new one in the peer connections
-            for (let peerId in peers) {
-              const sender = peers[peerId].peerConnection.getSenders().find(s => s.track.kind === 'video');
-              if (sender) {
-                sender.replaceTrack(videoTrack);
-              }
-              peers[peerId].peerConnection.createOffer()
-                .then(offer => peers[peerId].peerConnection.setLocalDescription(offer));
-            }
-            socket.emit('video-toggle', { enabled: true });
-          }).catch(error => {
-            console.log('Failed to get video stream.', error);
-          });
-      } else {
-        // If video tracks already exist, enable them
-        videoTracks.forEach(track => track.enabled = true);
-        socket.emit('video-toggle', { enabled: true });
-      }
-    }
-  }
-  
-  function disableVideo() {
-    if (myVideo.srcObject) {
-      myVideo.srcObject.getVideoTracks().forEach(track => {
-        track.enabled = false; // Disable the track instead of stopping it
-        // Remove the track from the stream
-        myVideo.srcObject.removeTrack(track);
-        // Replace the old stream with the new one in the peer connections
-        for (let peerId in peers) {
-          const sender = peers[peerId].peerConnection.getSenders().find(s => s.track.kind === 'video');
-          if (sender) {
-            sender.replaceTrack(null);
-          }
-          peers[peerId].peerConnection.createOffer()
-            .then(offer => peers[peerId].peerConnection.setLocalDescription(offer));
-        }
-        socket.emit('video-toggle', { enabled: false });
-        
-      });
-    }
-  }
-  
-  socket.on('video-toggle', ({ userId, enabled }) => {
-    if (peers[userId]) {
-      const remoteVideoTrack = peers[userId].peerConnection.getRemoteStreams()[0].getVideoTracks()[0];
-      if (remoteVideoTrack) {
-        remoteVideoTrack.enabled = enabled;
-      }
-    }
-  });
+}
 
+function enableVideo() {
+  if (myVideo.srcObject) {
+    const videoTracks = myVideo.srcObject.getVideoTracks();
+    if (videoTracks.length === 0) {
+      // If no video tracks exist, get video stream and add it
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(videoStream => {
+          const videoTrack = videoStream.getVideoTracks()[0];
+          myVideo.srcObject.addTrack(videoTrack);
+          // Replace the old stream with the new one in the peer connections
+          for (let peerId in peers) {
+            const sender = peers[peerId].peerConnection.getSenders().find(s => s.track.kind === 'video');
+            if (sender) {
+              sender.replaceTrack(videoTrack);
+            }
+            peers[peerId].peerConnection.createOffer()
+              .then(offer => peers[peerId].peerConnection.setLocalDescription(offer));
+          }
+          socket.emit('video-toggle', { enabled: true });
+        }).catch(error => {
+          console.log('Failed to get video stream.', error);
+        });
+    } else {
+      // If video tracks already exist, enable them
+      videoTracks.forEach(track => track.enabled = true);
+      socket.emit('video-toggle', { enabled: true });
+    }
+  }
+}
+
+function disableVideo() {
+  if (myVideo.srcObject) {
+    myVideo.srcObject.getVideoTracks().forEach(track => {
+      track.enabled = false; // Disable the track instead of stopping it
+      // Remove the track from the stream
+      myVideo.srcObject.removeTrack(track);
+      // Replace the old stream with the new one in the peer connections
+      for (let peerId in peers) {
+        const sender = peers[peerId].peerConnection.getSenders().find(s => s.track.kind === 'video');
+        if (sender) {
+          sender.replaceTrack(null);
+        }
+        peers[peerId].peerConnection.createOffer()
+          .then(offer => peers[peerId].peerConnection.setLocalDescription(offer));
+      }
+      socket.emit('video-toggle', { enabled: false });
+
+    });
+  }
+}
+
+socket.on('video-toggle', ({ userId, enabled }) => {
+  if (peers[userId]) {
+    const remoteVideoTrack = peers[userId].peerConnection.getRemoteStreams()[0].getVideoTracks()[0];
+    if (remoteVideoTrack) {
+      remoteVideoTrack.enabled = enabled;
+    }
+  }
+});

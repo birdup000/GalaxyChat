@@ -19,8 +19,12 @@ navigator.mediaDevices.getUserMedia({
     });
     call.on(`close`, () => {
       video.remove();
+      video = null; // Delete the video element
     });
-
+    call.on(`error`, error => {
+      console.error(`Error with peer connection: `, error);
+    });
+  
     peers[call.peer] = call;
   });
 
@@ -32,7 +36,10 @@ navigator.mediaDevices.getUserMedia({
 });
 
 socket.on(`user-disconnected`, userId => {
-  if (peers[userId]) peers[userId].close();
+  if (peers[userId]) {
+    peers[userId].close();
+    delete peers[userId]; // Delete the peer connection from the object
+  }
 });
 
 myPeer.on(`open`, id => {
@@ -60,6 +67,10 @@ function connectToNewUser(userId, stream) {
 
   call.on(`close`, () => {
     video.remove();
+    video = null; // Delete the video element
+  });
+  call.on(`error`, error => {
+    console.error(`Error with peer connection: `, error);
   });
 
   peers[userId] = call;

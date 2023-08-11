@@ -178,7 +178,6 @@ function checkForVideo() {
     });
 }
 
-document.getElementById('video-toggle').addEventListener('change', toggleVideo);
 
 function toggleVideo() {
   const videoToggle = document.getElementById('video-toggle');
@@ -188,6 +187,10 @@ function toggleVideo() {
     disableVideo();
   }
 }
+
+
+document.getElementById('video-toggle').addEventListener('change', toggleVideo);
+
 
 function replaceTrack(peerId, track) {
   const sender = peers[peerId].peerConnection.getSenders().find(s => s.track.kind === 'video');

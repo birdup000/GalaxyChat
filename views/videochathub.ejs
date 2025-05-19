@@ -256,7 +256,11 @@ p
     <script>
         function process()
         {
-            const url = "http://chat.birdup.link/" + document.getElementById("url").value;
+            let url = "http://chat.birdup.link/" + document.getElementById("url").value;
+            const joinVoiceOnly = document.getElementById("joinVoiceOnly").checked;
+            if (joinVoiceOnly) {
+                url += "?voiceOnly=true";
+            }
             location.href = url;
             return false;
         }
@@ -264,6 +268,9 @@ p
 
     <form onSubmit="return process();">
         <input type="text" name="url" id="url" placeholder="Room Code" required>
+      <br>
+        <input type="checkbox" id="joinVoiceOnly" name="joinVoiceOnly">
+        <label for="joinVoiceOnly" style="color:white;">Join as Voice-Only</label>
       <br>
       <br>
         <button class="futuristic-btn" id="tilt-button" type="submit">
@@ -288,6 +295,9 @@ p
             </div>
             <div class="flip-card-back">
                 <button id="video-call-button">Create Video Call!</button>
+                <br>
+                <input type="checkbox" id="createVoiceOnly" name="createVoiceOnly">
+                <label for="createVoiceOnly" style="color:white;">Join as Voice-Only</label>
             </div>
         </div>
     </div>
@@ -296,7 +306,12 @@ p
 <script>
     document.getElementById('video-call-button').addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.href = "http://chat.birdup.link/videochat";
+        let url = "http://chat.birdup.link/videochat";
+        const createVoiceOnly = document.getElementById("createVoiceOnly").checked;
+        if (createVoiceOnly) {
+            url += "?voiceOnly=true";
+        }
+        window.location.href = url;
     });
 </script>
 

@@ -1,4 +1,5 @@
 const socket = io(`/`);
+const voiceOnly = new URLSearchParams(window.location.search).get('voiceOnly') === 'true';
 const videoGrid = document.getElementById(`video-grid`);
 const myPeer = new Peer();
 const myVideo = document.createElement(`video`);
@@ -9,6 +10,14 @@ let videoElements = [];
 navigator.mediaDevices.getUserMedia({ video: false, audio: true })
   .then(stream => {
     addStream(myVideo, stream);
+
+    if (voiceOnly) {
+      const videoToggle = document.getElementById('video-toggle');
+      if (videoToggle) {
+        videoToggle.checked = false;
+        videoToggle.disabled = true;
+      }
+    }
 
     myPeer.on(`call`, call => {
       call.answer(stream);
@@ -166,6 +175,7 @@ function checkForAudio() {
 }
 
 function checkForVideo() {
+  if (voiceOnly) return;
   navigator.mediaDevices
     .getUserMedia({ video: true })
     .then(stream => {
@@ -180,6 +190,14 @@ function checkForVideo() {
 
 
 function toggleVideo() {
+  if (voiceOnly) {
+    // Ensure the toggle reflects the disabled state if somehow called
+    const videoToggle = document.getElementById('video-toggle');
+    if (videoToggle) {
+        videoToggle.checked = false;
+    }
+    return;
+  }
   const videoToggle = document.getElementById('video-toggle');
   if (videoToggle.checked) {
     enableVideo();
@@ -201,6 +219,7 @@ function replaceTrack(peerId, track) {
 }
 
 function enableVideo() {
+  if (voiceOnly) return;
   if (myVideo.srcObject) {
     const videoTracks = myVideo.srcObject.getVideoTracks();
     if (videoTracks.length === 0) {
